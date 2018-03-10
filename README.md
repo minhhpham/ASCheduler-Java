@@ -1,4 +1,5 @@
-# ASCheduler-Java
-Software and Algorithm for Multi-skilled Employee Rostering using Markov Chain Monte Carlo Simulation
+# Software and Algorithm for Multi-skilled Employee Rostering using Markov Chain Monte Carlo Simulation
+
 We are interested in the problem where an employer has many part-time or student employees who have different availabilities and preferences for work schedule. In addition, employees may have different skills and the employer would like to staff the workplace with all or some of the skills in the schedule. For instance, a tutoring center would like to have at least five Calculus tutors, two Statistics tutors, and three Physics tutors at any time; a dog daycare business would like to schedule one person who knows how to drive to pick up dogs and one who knows how to give dogs bath during certain shifts. Other criteria may also apply such as shifts must be at least two hours long and no employee must work more than 29 hours. This problem is challenging and even impossible to solve by hand if the number of employees and the number of skills are large.
+
 Given employees’ availabilities and preferences, their skills, their hour limits, available shifts, and the staff and skill needs of each shift, the goal of this algorithm to find a schedule that satisfies the workplace’s needs and optimizes employee satisfaction. The algorithm is a type of Markov Chain Monte Carlo.
