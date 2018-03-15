@@ -128,10 +128,12 @@ public class Array3d {
         int[] k_arr = new int[dim2*dim3];
         
         int i = 0;
+        // create array of sum1 (sum across dim1), j, and k
         for (int j = 0 ; j < dim2; j++){
             for (int k = 0; k < dim3; k++){
                 Sum1_arr[i] = Sum1[j][k];
                 j_arr[i] = j; k_arr[i] = k;
+                i = i + 1;
             }
         }
         Integer[] i_index = SortedIndex(Sum1_arr);        

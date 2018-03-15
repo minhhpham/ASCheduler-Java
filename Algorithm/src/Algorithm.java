@@ -12,8 +12,8 @@ public class Algorithm {
     public static void main(String[] args) {
         // Example of how to use Algorithm(...)
         int[][] Availability = {
-            {1,1,0},
-            {1,2,1},
+            {1,1,2},
+            {2,0,1},
             {1,0,1}
         };
         int[][] Skill = {
@@ -93,6 +93,7 @@ public class Algorithm {
                 // loop through (j,k) Order
                 for (int jk = 0; jk < LoopOrder.length; jk ++){
                     int j = LoopOrder[jk][0]; int k = LoopOrder[jk][1];
+                    System.out.println(j + " " + k);
                     if (X.Sum_1d(1)[j][k] == Needs[j][k]){continue;}
                     double[] omega = new double[p];
                     for (int i = 0; i < p; i++){    //loop through employee to calculate preference score
