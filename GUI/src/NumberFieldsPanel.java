@@ -65,6 +65,15 @@ public class NumberFieldsPanel extends JPanel implements PropertyChangeListener 
         // Next button
         btnNext = new JButton();
         btnNext.setText("Next: Input Employees");
+        btnNext.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                EmployeeInputPanel employeeInputPanel = new EmployeeInputPanel(singleton);
+                singleton.setEmployeeInput(employeeInputPanel);
+                Main.changeFrame(Main.getFrame(), singleton.getNumberFields(), singleton.getEmployeeInput());
+            }
+        });
 
         // Lay out the labels in a panel
         JPanel labelPane = new JPanel(new GridLayout(0, 1));
@@ -99,11 +108,17 @@ public class NumberFieldsPanel extends JPanel implements PropertyChangeListener 
     public void propertyChange(PropertyChangeEvent evt) {
         Object source = evt.getSource();
         if (source == employeesField) {
-            singleton.setNumEmployees(Integer.parseInt(employeesField.getText()));
+            if (employeesField.getValue() != null) {
+                singleton.setNumEmployees(Integer.parseInt(employeesField.getText()));
+            }
         } else if (source == shiftsField) {
-            singleton.setNumShifts(Integer.parseInt(shiftsField.getText()));
+            if (shiftsField.getValue() != null) {
+                singleton.setNumShifts(Integer.parseInt(shiftsField.getText()));
+            }
         } else if (source == skillsField) {
-            singleton.setNumSkills(Integer.parseInt(skillsField.getText()));
+            if (skillsField.getValue() != null) {
+                singleton.setNumSkills(Integer.parseInt(skillsField.getText()));
+            }
         }
     }
 

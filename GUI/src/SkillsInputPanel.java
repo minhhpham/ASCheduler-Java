@@ -1,30 +1,35 @@
 import javax.swing.*;
-import javax.xml.crypto.Data;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.NumberFormat;
 
-public class EmployeeInputPanel extends JPanel implements PropertyChangeListener {
+public class SkillsInputPanel extends JPanel implements PropertyChangeListener {
 
-    private DataSingleton singleton;
-    public JLabel employeesLabel;
+    public JLabel skillsLabel;
     public static JButton btnNext, btnBack = null;
-    public JTextField employeesFields[];
-    public String employeeNames[];
-    public int numEmployees;
+    public JTextField skillsFields[];
+    public String skillNames[];
+    public int numSkills;
 
     public void setData(DataSingleton singleton) {
-        // Initialize array of text fields with value passed in
-        employeesFields = new JTextField[this.numEmployees];
 
+        skillsFields = new JTextField[this.numSkills];
 
-        String employees = "Employee Names";
+        String skills = "Skills Needed";
         JPanel listPane = new JPanel();
         listPane.setLayout(new BoxLayout(listPane, BoxLayout.Y_AXIS));
-        employeesLabel = new JLabel(employees);
+        skillsLabel = new JLabel(skills);
+
+        listPane.add(skillsLabel);
+        listPane.add(Box.createRigidArea(new Dimension(0, 5)));
+
+    }
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+    }
+}
+/*
+private DataSingleton singleton;
 
         listPane.add(employeesLabel);
         listPane.add(Box.createRigidArea(new Dimension(0, 5)));
@@ -95,4 +100,5 @@ public class EmployeeInputPanel extends JPanel implements PropertyChangeListener
         }
         singleton.setEmployeeNames(employeeNames);
     }
-}
+
+ */

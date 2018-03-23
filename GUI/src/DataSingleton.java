@@ -1,6 +1,11 @@
 public class DataSingleton {
     private static DataSingleton singleton;
 
+    // Panels
+    private NumberFieldsPanel numberFields;
+    private EmployeeInputPanel employeeInput;
+    private ShiftsInputPanel shiftsInputPanel;
+
     // Number Fields
     private int numEmployees = 0;
     private int numShifts = 0;
@@ -12,6 +17,30 @@ public class DataSingleton {
 
     private DataSingleton() {
 
+    }
+
+    public NumberFieldsPanel getNumberFields() {
+        return numberFields;
+    }
+
+    public void setNumberFields(NumberFieldsPanel numberFields) {
+        this.numberFields = numberFields;
+    }
+
+    public EmployeeInputPanel getEmployeeInput() {
+        return employeeInput;
+    }
+
+    public void setEmployeeInput(EmployeeInputPanel employeeInput) {
+        this.employeeInput = employeeInput;
+    }
+
+    public ShiftsInputPanel getShiftsInputPanel() {
+        return shiftsInputPanel;
+    }
+
+    public void setShiftsInputPanel(ShiftsInputPanel shiftsInputPanel) {
+        this.shiftsInputPanel = shiftsInputPanel;
     }
 
     public static DataSingleton getInstance() {
