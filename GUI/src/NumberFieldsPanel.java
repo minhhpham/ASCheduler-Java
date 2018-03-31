@@ -95,8 +95,7 @@ public class NumberFieldsPanel extends JPanel implements PropertyChangeListener 
         add(btnNext, BorderLayout.SOUTH);
     }
 
-    //Create and set up number formats. These objects also
-    //parse numbers input by user.
+    //Create and set up number formats. These objects also parse numbers input by user.
     private void setUpFormats() {
         employeesFormat = NumberFormat.getNumberInstance();
         shiftsFormat = NumberFormat.getNumberInstance();

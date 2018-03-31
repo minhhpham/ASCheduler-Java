@@ -1,0 +1,3 @@
+The GUI for ASCheduler makes use of AWT and the Swing library for GUI componenets.
+The main JFrame makes use of multiple JFrames and JTextFields for user input.
+User inputted fields are set as variables in the Singleton class DataSingleton.

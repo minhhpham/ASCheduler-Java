@@ -11,8 +11,8 @@ public class ShiftsInputPanel extends JPanel implements PropertyChangeListener {
     private DataSingleton singleton;
     private JLabel shiftsLabel;
     private NumberFormat shiftsFormat;
-    private String employeeNames[];
     private JFormattedTextField shiftFields[];
+    private int shiftTimes[];
     private int numShifts;
     public static JButton btnNext, btnBack = null;
 
@@ -20,6 +20,7 @@ public class ShiftsInputPanel extends JPanel implements PropertyChangeListener {
         super(new BorderLayout());
         this.singleton = singleton;
         this.numShifts = singleton.getNumShifts();
+        this.shiftTimes = new int[this.numShifts];
 
         shiftFields = new JFormattedTextField[this.numShifts];
         shiftsFormat = NumberFormat.getNumberInstance();
@@ -70,6 +71,16 @@ public class ShiftsInputPanel extends JPanel implements PropertyChangeListener {
         btnNext.setText("Next: Input skills");
         buttonPane.add(btnNext);
 
+        btnNext.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                SkillsInputPanel skillsInputPanel = new SkillsInputPanel(DataSingleton.getInstance());
+                singleton.setSkillsInputPanel(skillsInputPanel);
+                Main.changeFrame(Main.getFrame(), singleton.getShiftsInputPanel(), singleton.getSkillsInputPanel());
+            }
+        });
+
         setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         add(shiftsLabel, BorderLayout.NORTH);
         add(fieldPane, BorderLayout.CENTER);
@@ -78,6 +89,14 @@ public class ShiftsInputPanel extends JPanel implements PropertyChangeListener {
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-
+        Object source = evt.getSource();
+        for (int i = 0; i < this.numShifts; i++) {
+            if (source == shiftFields[i]) {
+                if (shiftFields[i].getValue() != null) {
+                    shiftTimes[i] = Integer.parseInt(shiftFields[i].getText());
+                }
+            }
+        }
+        singleton.setShiftTimes(this.shiftTimes);
     }
 }

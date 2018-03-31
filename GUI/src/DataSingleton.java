@@ -5,15 +5,19 @@ public class DataSingleton {
     private NumberFieldsPanel numberFields;
     private EmployeeInputPanel employeeInput;
     private ShiftsInputPanel shiftsInputPanel;
+    private SkillsInputPanel skillsInputPanel;
+    private EmployeeAvailabilityInput employeeAvailabilityInput;
 
     // Number Fields
     private int numEmployees = 0;
     private int numShifts = 0;
     private int numSkills = 0;
 
-    // Employee Input
+    // User Input Fields
     private String[] employeeNames;
-
+    private int[] shiftTimes;
+    private String[] skills;
+    private int[][] employeeAvailability;
 
     private DataSingleton() {
 
@@ -41,6 +45,14 @@ public class DataSingleton {
 
     public void setShiftsInputPanel(ShiftsInputPanel shiftsInputPanel) {
         this.shiftsInputPanel = shiftsInputPanel;
+    }
+
+    public SkillsInputPanel getSkillsInputPanel() {
+        return skillsInputPanel;
+    }
+
+    public void setSkillsInputPanel(SkillsInputPanel skillsInputPanel) {
+        this.skillsInputPanel = skillsInputPanel;
     }
 
     public static DataSingleton getInstance() {
@@ -80,6 +92,38 @@ public class DataSingleton {
 
     public void setEmployeeNames(String[] employeeNames) {
         this.employeeNames = employeeNames;
+    }
+
+    public int[] getShiftTimes() {
+        return shiftTimes;
+    }
+
+    public void setShiftTimes(int[] shiftTimes) {
+        this.shiftTimes = shiftTimes;
+    }
+
+    public String[] getSkills() {
+        return skills;
+    }
+
+    public void setSkills(String[] skills) {
+        this.skills = skills;
+    }
+
+    public int[][] getEmployeeAvailability() {
+        return employeeAvailability;
+    }
+
+    public void setEmployeeAvailability(int[][] employeeAvailability) {
+        this.employeeAvailability = employeeAvailability;
+    }
+
+    public EmployeeAvailabilityInput getEmployeeAvailabilityInput() {
+        return employeeAvailabilityInput;
+    }
+
+    public void setEmployeeAvailabilityInput(EmployeeAvailabilityInput employeeAvailabilityInput) {
+        this.employeeAvailabilityInput = employeeAvailabilityInput;
     }
 
 }

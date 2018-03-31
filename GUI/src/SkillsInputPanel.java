@@ -1,10 +1,13 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
 public class SkillsInputPanel extends JPanel implements PropertyChangeListener {
 
+    public DataSingleton singleton;
     public JLabel skillsLabel;
     public static JButton btnNext, btnBack = null;
     public JTextField skillsFields[];
@@ -12,41 +15,30 @@ public class SkillsInputPanel extends JPanel implements PropertyChangeListener {
     public int numSkills;
 
     public void setData(DataSingleton singleton) {
+        this.numSkills = singleton.getNumSkills();
 
-        skillsFields = new JTextField[this.numSkills];
+        this.skillsFields = new JTextField[this.numSkills];
 
         String skills = "Skills Needed";
         JPanel listPane = new JPanel();
         listPane.setLayout(new BoxLayout(listPane, BoxLayout.Y_AXIS));
-        skillsLabel = new JLabel(skills);
+        this.skillsLabel = new JLabel(skills);
 
-        listPane.add(skillsLabel);
+        listPane.add(this.skillsLabel);
         listPane.add(Box.createRigidArea(new Dimension(0, 5)));
 
-    }
-    @Override
-    public void propertyChange(PropertyChangeEvent evt) {
-    }
-}
-/*
-private DataSingleton singleton;
-
-        listPane.add(employeesLabel);
-        listPane.add(Box.createRigidArea(new Dimension(0, 5)));
-
-
-        for (int i = 0; i < this.numEmployees; i++) {
-            employeesFields[i] = new JTextField();
+        for (int i = 0; i < this.numSkills; i++) {
+            skillsFields[i] = new JTextField();
             if (i == 0) {
-                employeesFields[i].setText("Grace Hopper");
+                skillsFields[i].setText("Can speak Spanish");
             }
-            employeesFields[i].setColumns(10);
-            employeesFields[i].addPropertyChangeListener("value", this);
-            listPane.add(employeesFields[i]);
+            skillsFields[i].setColumns(10);
+            skillsFields[i].addPropertyChangeListener("value", this);
+            listPane.add(skillsFields[i]);
         }
 
         JPanel buttonPane = new JPanel();
-        buttonPane.setLayout(new GridLayout(1, 0));
+        buttonPane.setLayout(new GridLayout(1,0));
 
         // Back button
         btnBack = new JButton();
@@ -57,22 +49,22 @@ private DataSingleton singleton;
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                Main.changeFrame(Main.getFrame(), singleton.getEmployeeInput(), singleton.getNumberFields());
+                Main.changeFrame(Main.getFrame(), singleton.getSkillsInputPanel(), singleton.getShiftsInputPanel());
             }
         });
 
         // Next button
         btnNext = new JButton();
-        btnNext.setText("Next: Input shifts");
+        btnNext.setText("Next: Employee Availability");
         buttonPane.add(btnNext);
 
         btnNext.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                ShiftsInputPanel shiftsInputPanel = new ShiftsInputPanel(DataSingleton.getInstance());
-                singleton.setShiftsInputPanel(shiftsInputPanel);
-                Main.changeFrame(Main.getFrame(), singleton.getEmployeeInput(), singleton.getShiftsInputPanel());
+                EmployeeAvailabilityInput employeeAvailabilityInput = new EmployeeAvailabilityInput(DataSingleton.getInstance());
+                singleton.setEmployeeAvailabilityInput(employeeAvailabilityInput);
+                Main.changeFrame(Main.getFrame(), singleton.getSkillsInputPanel(), singleton.getEmployeeAvailabilityInput());
             }
         });
 
@@ -81,24 +73,20 @@ private DataSingleton singleton;
         add(buttonPane, BorderLayout.SOUTH);
     }
 
-
-    public EmployeeInputPanel(DataSingleton singleton) {
+    public SkillsInputPanel(DataSingleton singleton) {
         super(new BorderLayout());
-
         this.singleton = singleton;
-        this.numEmployees = singleton.getNumEmployees();
-
+        this.numSkills = singleton.getNumSkills();
         setData(singleton);
     }
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Object source = evt.getSource();
-        for (int i = 0; i < this.numEmployees; i++) {
-            if (source == employeesFields[i]) {
-                employeeNames[i] = employeesFields[i].toString();
+        for (int i = 0; i < this.numSkills; i++) {
+            if (source == skillsFields[i]) {
+                skillNames[i] = skillsFields[i].toString();
             }
         }
-        singleton.setEmployeeNames(employeeNames);
+        singleton.setSkills(skillNames);
     }
-
- */
+}
