@@ -4,6 +4,8 @@ import Sampling.Sampling;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.DoubleStream;
+import ShiftPackage.ShiftClass;
+
 /*
  * @author minhpham
  */
@@ -12,9 +14,10 @@ public class Algorithm {
     public static void main(String[] args) {
         // Example of how to use Algorithm(...)
         int[][] Availability = {
-            {1,1,2},
-            {2,0,1},
-            {1,0,1}
+            {1,1,2,1,0},
+            {2,0,1,1,1},
+            {1,0,1,2,0},
+            
         };
         int[][] Skill = {
             {1,1,1},
@@ -25,17 +28,27 @@ public class Algorithm {
         int[][] Needs = {
             {2,2,2},
             {2,2,2},
+            {2,2,2},
+            {2,2,2},
             {2,2,2}
         };      
         String[] EName = {"Husky", "Corgi", "Cat"};
         
-        String[][][] schedule = Algorithm(Availability, Skill, PMax, Needs, EName, 0.1);
+        ShiftClass[] Shifts = new ShiftClass[5];
+        Shifts[0] = new ShiftClass("Monday", 9);
+        Shifts[1] = new ShiftClass("Tuesday", 10);
+        Shifts[2] = new ShiftClass("Tuesday", 11);
+        Shifts[3] = new ShiftClass("Sunday", 11);
+        Shifts[4] = new ShiftClass("Sunday", 12);
+        
+        
+        String[][][] schedule = Algorithm(Availability, Skill, PMax, Needs, EName, Shifts, 0.1);
 
         // output
         for (int skill = 0; skill<=2; skill++){
             System.out.println("skill " + skill + ":");
-            for (int shift = 0; shift<=2; shift ++){
-                System.out.print("    -Shift " + shift + ":");
+            for (int shift = 0; shift<5; shift ++){
+                System.out.print("    -" + Shifts[shift].concat + ":");
                 System.out.println(Arrays.toString(schedule[skill][shift]));                           
             }                       
         }
@@ -49,6 +62,7 @@ public class Algorithm {
      * @param PMax      Employee Hour Limits
      * @param Needs     Maximum staff needs
      * @param EName     Employee Names 
+     * @param Shifts    list of ShiftClass object
      * @param alpha     inverse weight of non preferred shift, let user pick, set 10 as default
      * @return          A 3D of String, [i][j][...] is the list of names of employee working on skill i on shift j
      */
@@ -57,7 +71,8 @@ public class Algorithm {
         int[][] Skill,      
         int[]   PMax,       
         int[][] Needs,      
-        String[] EName,     
+        String[] EName,  
+        ShiftClass[] Shifts,
         double alpha         
     ){        
         Sampling tool = new Sampling();
@@ -76,16 +91,21 @@ public class Algorithm {
                 }
             }
         }
-        Array3d A = new Array3d(A_data);
+        
+        Array3d A_raw = new Array3d(A_data);
+        
+        // Create gaps in A and Needs when shifts.WeekDay change
+        Array3d A = Array3d.AddGaps(A_raw, Shifts);
+        Needs = Array3d.AddGaps(Needs, Shifts);
         
         // create loop order A[][j][k] ascending
         int[][] LoopOrder = A.LoopOrder();
         
         // Iterate
         double Sigma_best = 0;  
-        Array3d X_best = new Array3d(new double[p][t][c]); //bestX
+        Array3d X_best = new Array3d(new double[A.dim1][A.dim2][A.dim3]); //bestX
         for (int sim = 1; sim <= 100; sim++){   //100 simulations of schedule
-            Array3d X = new Array3d(new double[p][t][c]);
+            Array3d X = new Array3d(new double[A.dim1][A.dim2][A.dim3]);
             double sumX = -1;
             // loop till no change in X
             while (X.Sum_3d() > sumX){  
@@ -93,33 +113,16 @@ public class Algorithm {
                 // loop through (j,k) Order
                 for (int jk = 0; jk < LoopOrder.length; jk ++){
                     int j = LoopOrder[jk][0]; int k = LoopOrder[jk][1];
-                    System.out.println(j + " " + k);
                     if (X.Sum_1d(1)[j][k] == Needs[j][k]){continue;}
                     double[] omega = new double[p];
                     for (int i = 0; i < p; i++){    //loop through employee to calculate preference score
-                        if (j == 0){
-                        omega[i] = A.value[i][j][k] 
-                                / (1 + A.Sum_1d(3)[i][j])
-                                * (PMax[i] - X.Sum_2d(2, 3)[i])
-                                * (1 - X.Sum_1d(3)[i][j])
-                                * Math.pow(1 + X.Sum_1d(3)[i][j + 1], 10)
-                                ;                        
-                        } else if (j == t - 1){
-                        omega[i] = A.value[i][j][k] 
-                                / (1 + A.Sum_1d(3)[i][j])
-                                * (PMax[i] - X.Sum_2d(2, 3)[i])
-                                * (1 - X.Sum_1d(3)[i][j])
-                                * Math.pow(1 + X.Sum_1d(3)[i][j - 1], 10)
-                                ;                        
-                        } else{
                         omega[i] = A.value[i][j][k] 
                                 / (1 + A.Sum_1d(3)[i][j])
                                 * (PMax[i] - X.Sum_2d(2, 3)[i])
                                 * (1 - X.Sum_1d(3)[i][j])
                                 * Math.pow(1 + X.Sum_1d(3)[i][j + 1], 10)
                                 * Math.pow(1 + X.Sum_1d(3)[i][j - 1], 10)
-                                ;                        
-                        }
+                                ;                                                
                     }
                     if (DoubleStream.of(omega).sum() == 0){continue;}
                     // sample 1 Employee

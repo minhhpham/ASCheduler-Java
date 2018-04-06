@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.EmptyStackException;
 import java.util.stream.IntStream;
-
+import ShiftPackage.ShiftClass;
 /*
  *
  * @author minhpham
@@ -201,6 +201,57 @@ public class Array3d {
                 out[k][j] = people.toArray(new String[people.size()]);
             }
         }
+        return out;
+    }
+    
+    
+    
+    public static Array3d AddGaps(Array3d X, ShiftClass[] Shifts){
+        int CountGaps = 1;
+        for (int j = 1; j < X.dim2; j ++){
+            if (Shifts[j].WeekDay != Shifts[j-1].WeekDay || j == X.dim2){
+                CountGaps = CountGaps + 1;
+            }
+        }
+              
+        Array3d out = new Array3d(new double[X.dim1][X.dim2 + CountGaps + 1][X.dim3]);
+        int Lifts = 1; int[] gaps = new int[CountGaps]; gaps[0] = 0;
+        CountGaps = 1;
+        for (int j = 0; j < X.dim2; j++){
+            if (j != 0){
+                if (Shifts[j].WeekDay != Shifts[j-1].WeekDay || j == X.dim2){
+                    Lifts = Lifts + 1;
+                    CountGaps = CountGaps + 1;
+                }
+            }
+            for (int i = 0; i < X.dim1; i++){
+                for (int k = 0; k < X.dim3; k++){
+                    out.Set(i, j + Lifts, k, X.value[i][j][k]);
+                }
+            }
+        }
+        return out;
+    }
+    
+    public static int[][] AddGaps(int[][] X, ShiftClass[] Shifts){
+        int CountGaps = 1;
+        for (int j = 1; j < X.length; j ++){
+            if (Shifts[j].WeekDay != Shifts[j-1].WeekDay || j == X.length){
+                CountGaps = CountGaps + 1;
+            }
+        }
+        int[][] out = new int[X.length + CountGaps + 1][X[0].length];
+        int Lifts = 1;
+        for (int j = 0; j < X.length; j++){
+            if (j != 0){
+                if (Shifts[j].WeekDay != Shifts[j-1].WeekDay || j == X.length){
+                    Lifts = Lifts + 1;
+                }
+            }
+            for (int k = 0; k < X[0].length; k++){
+                out[j + Lifts][k] = X[j][k];
+            }
+        }               
         return out;
     }
 }
