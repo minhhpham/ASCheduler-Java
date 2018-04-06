@@ -11,6 +11,7 @@ import java.util.stream.IntStream;
  * Attributes:
  *      .WeekDay: string
  *      .Hour: int
+ *      .concat: string, print out Day & Time
  */
 public class ShiftClass {
 
