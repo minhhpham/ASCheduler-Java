@@ -1,6 +1,8 @@
 import javax.swing.*;
 import javax.xml.crypto.Data;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
@@ -19,6 +21,7 @@ public class EmployeeInputPanel extends JPanel implements PropertyChangeListener
     public void setData(DataSingleton singleton) {
         // Initialize array of text fields with value passed in
         employeesFields = new JTextField[this.numEmployees];
+        employeeNames = new String[this.numEmployees];
 
 
         String employees = "Employee Names";
@@ -35,10 +38,11 @@ public class EmployeeInputPanel extends JPanel implements PropertyChangeListener
             if (i == 0) {
                 employeesFields[i].setText("Grace Hopper");
             }
+            final int j = i;
             employeesFields[i].setColumns(10);
-            employeesFields[i].addPropertyChangeListener("value", this);
             listPane.add(employeesFields[i]);
         }
+
 
         JPanel buttonPane = new JPanel();
         buttonPane.setLayout(new GridLayout(1, 0));
@@ -67,6 +71,7 @@ public class EmployeeInputPanel extends JPanel implements PropertyChangeListener
                 super.mouseClicked(e);
                 ShiftsInputPanel shiftsInputPanel = new ShiftsInputPanel(DataSingleton.getInstance());
                 singleton.setShiftsInputPanel(shiftsInputPanel);
+                setEmployeeNames();
                 Main.changeFrame(Main.getFrame(), singleton.getEmployeeInput(), singleton.getShiftsInputPanel());
             }
         });
@@ -85,14 +90,22 @@ public class EmployeeInputPanel extends JPanel implements PropertyChangeListener
 
         setData(singleton);
     }
+
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Object source = evt.getSource();
         for (int i = 0; i < this.numEmployees; i++) {
             if (source == employeesFields[i]) {
-                employeeNames[i] = employeesFields[i].toString();
+                employeeNames[i] = employeesFields[i].getText();
             }
         }
         singleton.setEmployeeNames(employeeNames);
+    }
+
+    private void setEmployeeNames() {
+        for (int i = 0; i < numEmployees; i++) {
+            employeeNames[i] = employeesFields[i].getText();
+        }
+        this.singleton.setEmployeeNames(employeeNames);
     }
 }

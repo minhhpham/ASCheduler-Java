@@ -25,7 +25,7 @@ public class ShiftsInputPanel extends JPanel implements PropertyChangeListener {
         shiftFields = new JFormattedTextField[this.numShifts];
         shiftsFormat = NumberFormat.getNumberInstance();
 
-        String shifts = "Shift Times (Hour)";
+        String shifts = "Shift Times (Hour e.g. 1:00 or 13:00)";
         shiftsLabel = new JLabel(shifts);
 
         JPanel fieldPane = new JPanel(new GridLayout(0, 1));
@@ -38,6 +38,7 @@ public class ShiftsInputPanel extends JPanel implements PropertyChangeListener {
 
         for (int i = 0; i < this.numShifts; i++) {
             shiftFields[i] = new JFormattedTextField(shiftsFormat);
+            shiftFields[i].setHorizontalAlignment(SwingConstants.RIGHT);
             time[i] = new JLabel(":00");
             if (i == 0) shiftFields[i].setValue(1);
 
