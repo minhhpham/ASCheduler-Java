@@ -1,5 +1,6 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultFormatterFactory;
@@ -15,26 +16,29 @@ import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.EventObject;
 
-public class EmployeeAvailabilityInput extends JPanel {
+public class EmployeeAvailabilityInput extends JPanel implements PropertyChangeListener {
 
     public static JButton btnNext, btnBack = null;
     private DataSingleton singleton;
+    Integer[][] employeeAvailability;
+
 
     public EmployeeAvailabilityInput(DataSingleton singleton) {
         super(new BorderLayout());
 
-        // Title
-        JLabel title = new JLabel("Mark 2 for available, 1 for available, not preferred, and 0 for unavailable");
+        JPanel title = new JPanel();
+        JLabel titleLabel = new JLabel("Employee Availability: 0-unavailable, 1-available, 2-available, not preferred");
+        title.add(titleLabel);
+        add(title);
 
         this.singleton = singleton;
-        Integer[][] employeeAvailability = new Integer[this.singleton.getNumEmployees()][this.singleton.getNumShifts()];
+        employeeAvailability = new Integer[this.singleton.getNumEmployees()][this.singleton.getNumShifts()];
 
         DefaultTableModel model = new DefaultTableModel(employeeAvailability, singleton.getEmployeeNames());
         // create table
         JTable table = new JTable(model);
 
-        // add title and table to frame
-        add(title);
+        // add table to frame
         add(new JScrollPane(table));
 
         JPanel buttonPane = new JPanel();
@@ -58,10 +62,21 @@ public class EmployeeAvailabilityInput extends JPanel {
         btnNext.setText("Next: Employee Skills");
         buttonPane.add(btnNext);
 
-        setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
-
         add(buttonPane, BorderLayout.SOUTH);
 
     }
 
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        Object source = evt.getSource();
+        for (int i = 0; i < this.singleton.getNumEmployees(); i++) {
+            for (int j = 0; j < this.singleton.getNumShifts(); j++) {
+                if (source == this.employeeAvailability[i][j]) {
+                    //employeeNames[i] = employeesFields[i].getText();
+                }
+            }
+
+        }
+        singleton.setEmployeeAvailability(this.employeeAvailability);
+    }
 }

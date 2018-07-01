@@ -94,15 +94,16 @@ public class EmployeeInputPanel extends JPanel implements PropertyChangeListener
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         Object source = evt.getSource();
-        for (int i = 0; i < this.numEmployees; i++) {
+        int i;
+        for (i = 0; i < this.numEmployees; i++) {
             if (source == employeesFields[i]) {
                 employeeNames[i] = employeesFields[i].getText();
             }
         }
         singleton.setEmployeeNames(employeeNames);
     }
-
     private void setEmployeeNames() {
+
         for (int i = 0; i < numEmployees; i++) {
             employeeNames[i] = employeesFields[i].getText();
         }

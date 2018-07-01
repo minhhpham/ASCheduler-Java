@@ -1,3 +1,8 @@
-The GUI for ASCheduler makes use of AWT and the Swing library for GUI componenets.
+The GUI for ASCheduler makes use of AWT and the Swing library for GUI components.
 The main JFrame makes use of multiple JFrames and JTextFields for user input.
 User inputted fields are set as variables in the Singleton class DataSingleton.
+
+Issues:
+- Want to have a label on the Employee Availability Input frame (with Names as the Columns and Shift Times as the Rows)
+    - Added JLabel to the JPanel but it does not appear
+

@@ -17,7 +17,7 @@ public class DataSingleton {
     private String[] employeeNames;
     private int[] shiftTimes;
     private String[] skills;
-    private int[][] employeeAvailability;
+    private Integer[][] employeeAvailability;
 
     private DataSingleton() {
 
@@ -110,11 +110,11 @@ public class DataSingleton {
         this.skills = skills;
     }
 
-    public int[][] getEmployeeAvailability() {
+    public Integer[][] getEmployeeAvailability() {
         return employeeAvailability;
     }
 
-    public void setEmployeeAvailability(int[][] employeeAvailability) {
+    public void setEmployeeAvailability(Integer[][] employeeAvailability) {
         this.employeeAvailability = employeeAvailability;
     }
 
