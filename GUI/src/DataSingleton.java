@@ -7,6 +7,7 @@ public class DataSingleton {
     private ShiftsInputPanel shiftsInputPanel;
     private SkillsInputPanel skillsInputPanel;
     private EmployeeAvailabilityInput employeeAvailabilityInput;
+    private EmployeeSkillsInput employeeSkillsInput;
 
     // Number Fields
     private int numEmployees = 0;
@@ -18,6 +19,7 @@ public class DataSingleton {
     private int[] shiftTimes;
     private String[] skills;
     private Integer[][] employeeAvailability;
+    private Integer[][] employeeSkills;
 
     private DataSingleton() {
 
@@ -119,11 +121,26 @@ public class DataSingleton {
     }
 
     public EmployeeAvailabilityInput getEmployeeAvailabilityInput() {
-        return employeeAvailabilityInput;
+        return this.employeeAvailabilityInput;
     }
 
     public void setEmployeeAvailabilityInput(EmployeeAvailabilityInput employeeAvailabilityInput) {
         this.employeeAvailabilityInput = employeeAvailabilityInput;
     }
 
+    public void setEmployeeSkillsInput(EmployeeSkillsInput employeeSkillsInput) {
+        this.employeeSkillsInput = employeeSkillsInput;
+    }
+
+    public EmployeeSkillsInput getEmployeeSkillsInput() {
+        return this.employeeSkillsInput;
+    }
+
+    public Integer[][] getEmployeeSkills() {
+        return employeeSkills;
+    }
+
+    public void setEmployeeSkills(Integer[][] employeeSkills) {
+        this.employeeSkills = employeeSkills;
+    }
 }

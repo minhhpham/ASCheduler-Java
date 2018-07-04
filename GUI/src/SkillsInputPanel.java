@@ -89,4 +89,13 @@ public class SkillsInputPanel extends JPanel implements PropertyChangeListener {
         }
         singleton.setSkills(skillNames);
     }
+    private void setSkills() {
+
+        for (int i = 0; i < numSkills; i++) {
+            if (skillsFields[i].getText() != null) {
+                skillNames[i] = skillsFields[i].getText();
+            }
+        }
+        this.singleton.setSkills(skillNames);
+    }
 }

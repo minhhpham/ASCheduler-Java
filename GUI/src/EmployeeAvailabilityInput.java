@@ -1,20 +1,9 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-import javax.swing.table.AbstractTableModel;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.text.DefaultFormatterFactory;
-import javax.swing.text.NumberFormatter;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.EventObject;
 
 public class EmployeeAvailabilityInput extends JPanel implements PropertyChangeListener {
 
@@ -27,6 +16,7 @@ public class EmployeeAvailabilityInput extends JPanel implements PropertyChangeL
         super(new BorderLayout());
 
         JPanel title = new JPanel();
+        title.setLayout(new FlowLayout());
         JLabel titleLabel = new JLabel("Employee Availability: 0-unavailable, 1-available, 2-available, not preferred");
         title.add(titleLabel);
         add(title);
@@ -60,6 +50,16 @@ public class EmployeeAvailabilityInput extends JPanel implements PropertyChangeL
         // Next button
         btnNext = new JButton();
         btnNext.setText("Next: Employee Skills");
+        btnNext.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                EmployeeSkillsInput employeeSkillsInput = new EmployeeSkillsInput(singleton);
+                singleton.setEmployeeSkillsInput(employeeSkillsInput);
+                Main.changeFrame(Main.getFrame(), singleton.getEmployeeAvailabilityInput(), singleton.getEmployeeSkillsInput());
+            }
+        });
+
         buttonPane.add(btnNext);
 
         add(buttonPane, BorderLayout.SOUTH);
